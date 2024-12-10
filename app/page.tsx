@@ -14,10 +14,12 @@ async function fetchFeatures() {
 };
 
 interface Feature {
-  id: number;
-  attributes: {
-    title: string;
-  };
+  id: number,
+  documentId: string,
+  String: string,
+  createdAt: string,
+  updatedAt: string,
+  publishedAt: string
 }
 
 export default async function Home() {
@@ -51,7 +53,7 @@ export default async function Home() {
         </div>
         <div className="w-1/3">
           <ul className="font-bold">
-            {features.map((feature: any) => (
+            {features.map((feature: Feature) => (
               <li
                 key={feature.id}
                 className="bg-gray-300 mb-3 flex justify-between p-2 rounded-tl-full rounded-bl-full text-black hover:bg-gray-400 hover:text-white hover:cursor-pointer"
