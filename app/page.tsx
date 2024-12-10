@@ -1,12 +1,27 @@
 import Image from "next/image";
+import axios from "axios";
 
-export default function Home() {
+// Fetch data from Strapi
+async function fetchPosts() {
+  const res = await axios.get("http://localhost:1337/api/posts");
+  return res.data.data;
+}
+
+async function fetchFeatures() {
+  const res = await axios.get("http://localhost:1337/api/features");
+  return res.data.data;
+};
+
+export default async function Home() {
+  const posts: any = await fetchPosts();
+  const features: any = await fetchFeatures();
+  console.log(features)
   return (
     <div className="flex flex-col	items-center p-10">
-      <p className="">WHY CHOOSSE US</p>
-      <h1 className="text-3xl font-bold p-5">We Are Different From Others</h1>
+      <p>{posts[0].Text}</p>
+      <h1 className="text-3xl font-bold p-5">{posts[1].Text}</h1>
       <p className="w-2/5 text-center">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa cupiditate accusantium recusandae soluta explicabo hic! Facere unde nam accusantium natus?
+        {posts[2].Text}
       </p>
       <div className="flex flex-row p-10 justify-center items-center ">
         <div className="w-2/3 relative">
@@ -28,21 +43,14 @@ export default function Home() {
         </div>
         <div className="w-1/3">
           <ul className="font-bold">
-            <li className="bg-pink-500 mb-3 flex justify-between p-2 rounded-tl-full rounded-bl-full text-white hover:bg-pink-600 hover:cursor-pointer">
-              <span>&lt;</span><span>Industry experts</span>
-            </li>
-            <li className="bg-gray-300 mb-3 flex justify-between p-2 rounded-tl-full rounded-bl-full text-black hover:bg-gray-400 hover:text-white hover:cursor-pointer">
-              <span>&lt;</span><span>Dedicated Team</span>
-            </li>
-            <li className="bg-gray-300 mb-3 flex justify-between p-2 rounded-tl-full rounded-bl-full text-black hover:bg-gray-400 hover:text-white hover:cursor-pointer">
-              <span>&lt;</span><span>Outcome focused</span>
-            </li>
-            <li className="bg-gray-300 mb-3 flex justify-between p-2 rounded-tl-full rounded-bl-full text-black hover:bg-gray-400 hover:text-white hover:cursor-pointer">
-              <span>&lt;</span><span>High Quality Service</span>
-            </li>
-            <li className="bg-gray-300 mb-3 flex justify-between p-2 rounded-tl-full rounded-bl-full text-black hover:bg-gray-400 hover:text-white hover:cursor-pointer">
-              <span>&lt;</span><span>Cyber Security Excerpt</span>
-            </li>
+            {features.map((feature: any) => (
+              <li
+                key={feature.id}
+                className="bg-gray-300 mb-3 flex justify-between p-2 rounded-tl-full rounded-bl-full text-black hover:bg-gray-400 hover:text-white hover:cursor-pointer"
+              >
+                <span>&lt;</span><span>{feature.String}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
