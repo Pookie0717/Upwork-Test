@@ -1,20 +1,28 @@
 import Image from "next/image";
 import axios from "axios";
 
+
 // Fetch data from Strapi
 async function fetchPosts() {
-  const res = await axios.get("http://localhost:1337/api/posts");
+  const res = await axios.get("https://strapi-startup.onrender.com/api/posts");
   return res.data.data;
 }
 
 async function fetchFeatures() {
-  const res = await axios.get("http://localhost:1337/api/features");
+  const res = await axios.get("https://strapi-startup.onrender.com/api/features");
   return res.data.data;
 };
 
+interface Feature {
+  id: number;
+  attributes: {
+    title: string;
+  };
+}
+
 export default async function Home() {
-  const posts: any = await fetchPosts();
-  const features: any = await fetchFeatures();
+  const posts = await fetchPosts();
+  const features = await fetchFeatures();
   console.log(features)
   return (
     <div className="flex flex-col	items-center p-10">
